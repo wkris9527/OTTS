@@ -1,6 +1,6 @@
 <div align="center">
 
-# RTTS
+# OTTS
 
 ### Towards Robust Test-Time Segmentation via Iterative Object-centric Adaptation
 
@@ -16,14 +16,14 @@ University of Science and Technology Beijing
 
 </div>
 
-Official PyTorch implementation of **RTTS**.
+Official PyTorch implementation of **OTTS**.
 
 ## Overview
 
-RTTS addresses open-vocabulary semantic segmentation under test-time domain shift through iterative object-centric refinement. It combines the semantic cues of CLIP with the structural priors of SAM to improve spatial coherence and semantic consistency.
+OTTS addresses open-vocabulary semantic segmentation under test-time domain shift through iterative object-centric refinement. It combines the semantic cues of CLIP with the structural priors of SAM to improve spatial coherence and semantic consistency.
 
 <p align="center">
-  <img src="figures/overview.jpg" alt="Overview of RTTS" width="100%">
+  <img src="figures/overview.jpg" alt="Overview of OTTS" width="100%">
 </p>
 
 - **Category-aware region generation:** category-specific CLIP responses guide SAM to generate semantically relevant mask proposals.
@@ -35,11 +35,11 @@ RTTS addresses open-vocabulary semantic segmentation under test-time domain shif
 The evaluation stack uses **Python 3.10**, **PyTorch 2.1.2**, **CUDA 11.8**, and **MMSegmentation 1.2.2**. An NVIDIA GPU is required. The commands below use Bash.
 
 ```bash
-git clone https://github.com/wkris9527/RTTS.git
-cd RTTS
+git clone https://github.com/wkris9527/OTTS.git
+cd OTTS
 
-conda create -n rtts python=3.10.13 -y
-conda activate rtts
+conda create -n otts python=3.10.13 -y
+conda activate otts
 
 python -m pip install torch==2.1.2 torchvision==0.16.2 --index-url https://download.pytorch.org/whl/cu118
 python -m pip install mmcv==2.1.0 -f https://download.openmmlab.com/mmcv/dist/cu118/torch2.1/index.html
@@ -50,7 +50,7 @@ python -m pip install -r requirements.txt
 
 The default evaluation uses **NaCLIP ViT-L/14** and **SAM ViT-H**. CLIP weights download automatically on first use. Download [SAM ViT-H weights](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth) and place `sam_vit_h_4b8939.pth` in the repository root.
 
-For **SAM2**, obtain the source code, installation instructions, and model checkpoints from the [official Meta SAM2 repository](https://github.com/facebookresearch/sam2). SAM2 is optional and is not required by the default RTTS evaluation. Its environment requirements differ from the stack above; follow the upstream instructions in a separate environment.
+For **SAM2**, obtain the source code, installation instructions, and model checkpoints from the [official Meta SAM2 repository](https://github.com/facebookresearch/sam2). SAM2 is optional and is not required by the default OTTS evaluation. Its environment requirements differ from the stack above; follow the upstream instructions in a separate environment.
 
 ## Datasets
 
@@ -91,7 +91,7 @@ CUDA_VISIBLE_DEVICES=0 python main.py \
   --class_extensions --plot_loss
 ```
 
-The CLI uses `--method mlmp`, matching the original `rtts.sh` scripts. Those scripts use ten gradient-adaptation steps alongside two rounds of region refinement in the backbone.
+The CLI uses `--method mlmp`, matching the original `otts.sh` scripts. Those scripts use ten gradient-adaptation steps alongside two rounds of region refinement in the backbone.
 
 ### Corruption robustness and other benchmarks
 
@@ -99,13 +99,13 @@ Original experiment scripts are provided in [bash/](bash/). Set `GPU_ID`, `DATA_
 
 ```bash
 # PASCAL VOC20: clean inputs and all 15 corruptions
-bash bash/v20/rtts.sh
+bash bash/v20/otts.sh
 
 # Cityscapes: clean inputs and all 15 corruptions
-bash bash/cityscapes/rtts.sh
+bash bash/cityscapes/otts.sh
 ```
 
-Use the corresponding `rtts.sh` under the other dataset directories for VOC21, Context59/60, COCO-Object, and COCO-Stuff. Set `TRIALS=3` to run three trials. The original comparison scripts for MLMP, TENT, TPT, WATT, CLIPArTT, and NoAdapt are also retained.
+Use the corresponding `otts.sh` under the other dataset directories for VOC21, Context59/60, COCO-Object, and COCO-Stuff. Set `TRIALS=3` to run three trials. The original comparison scripts for MLMP, TENT, TPT, WATT, CLIPArTT, and NoAdapt are also retained.
 
 Standard presets use a 224 × 224 resize. Cityscapes uses the original 1120 × 560 resize with 224 × 224 sliding windows and stride 112. Evaluation follows the label remapping and resolution in the released dataset code.
 
@@ -136,12 +136,12 @@ A dash indicates that the corresponding result is not reported in Table I. Full 
 If you find this work useful, please cite:
 
 ```bibtex
-@unpublished{yin2026rtts,
+@unpublished{yin2026otts,
   title  = {Towards Robust Test-Time Segmentation via Iterative Object-centric Adaptation},
   author = {Yin, Junhui and Wang, Wenzhe and Fan, Bin and Liu, Hongmin},
   year   = {2026},
   note   = {Manuscript},
-  url    = {https://github.com/wkris9527/RTTS}
+  url    = {https://github.com/wkris9527/OTTS}
 }
 ```
 
@@ -149,7 +149,7 @@ If you find this work useful, please cite:
 
 This project builds on [MLMP](https://github.com/dosowiechi/MLMP), [NaCLIP](https://github.com/sinahmr/NaCLIP), [CLIP](https://github.com/openai/CLIP), and [SAM](https://github.com/facebookresearch/segment-anything). We thank their authors for making the code and models available.
 
-RTTS contributions are released under the [MIT License](LICENSE). Third-party copyright and license texts are included in the same license file.
+OTTS contributions are released under the [MIT License](LICENSE). Third-party copyright and license texts are included in the same license file.
 
-For questions and reproducibility reports, please open a [GitHub issue](https://github.com/wkris9527/RTTS/issues).
+For questions and reproducibility reports, please open a [GitHub issue](https://github.com/wkris9527/OTTS/issues).
 
